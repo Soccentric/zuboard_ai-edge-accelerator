@@ -147,8 +147,7 @@ write_hw_platform -fixed -include_bit -force -file $xsa_file
 
 puts "INFO: XSA file generated at: $xsa_file"
 
-# Save and close Vivado project
-save_project_as $proj_name $proj_dir -force
+# Close Vivado project (project is already saved automatically)
 close_project
 
 puts "=========================================================================="
