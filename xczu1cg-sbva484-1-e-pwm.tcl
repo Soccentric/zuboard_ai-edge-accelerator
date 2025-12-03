@@ -15,6 +15,9 @@ file mkdir $proj_dir
 # Create new project
 create_project $proj_name $proj_dir -part $part_name -force
 
+# Set board part if available
+catch {set_property board_part zuboard_1cg [current_project]}
+
 # Set project properties
 set_property target_language VHDL [current_project]
 set_property simulator_language Mixed [current_project]
@@ -27,7 +30,7 @@ create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e:3.5 zynq_ultra_ps_e_
 
 # Apply ZUBoard 1CG board preset if available
 # Otherwise configure manually
-apply_bd_automation -rule xilinx.com:bd_rule:zynq_ultra_ps_e -config {apply_board_preset "1" } [get_bd_cells zynq_ultra_ps_e_0]
+# apply_bd_automation -rule xilinx.com:bd_rule:zynq_ultra_ps_e -config {apply_board_preset "1" } [get_bd_cells zynq_ultra_ps_e_0]
 
 # Configure Zynq UltraScale+ PS
 set_property -dict [list \
@@ -61,7 +64,8 @@ set_property -dict [list \
 
 # Configure DDR (4GB DDR4)
 set_property -dict [list \
-    CONFIG.PSU__DDRC__DEVICE_CAPACITY {4096 MBits} \
+    CONFIG.PSU__DDRC__DEVICE_CAPACITY {16384 MBits} \
+    CONFIG.PSU__DDRC__ROW_ADDR_COUNT {17} \
     CONFIG.PSU__DDRC__SPEED_BIN {DDR4_1600J} \
     CONFIG.PSU__DDRC__BUS_WIDTH {32 Bit} \
     ] [get_bd_cells zynq_ultra_ps_e_0]
